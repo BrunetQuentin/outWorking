@@ -3,8 +3,10 @@ package com.example.outworking;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ListView;
 
 import com.example.outworking.db.AppDatabase;
@@ -30,25 +32,14 @@ public class activity_workouts extends AppCompatActivity {
 
         db = DatabaseClient.getInstance(getApplicationContext());
 
-        List<Workout> workouts = db.getAppDatabase().workoutDao().getAll();
-
         listWorkout = findViewById(R.id.listWorkouts);
 
         adapter = new WorkoutAdapter(this, new ArrayList<Workout>());
         listWorkout.setAdapter(adapter);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        // Mise à jour des workout
-        getWorkouts();
-
-    }
-
     private void getWorkouts() {
-        class getWorkouts extends AsyncTask<Void, Void, List<Workout>> {
+        class GetWorkouts extends AsyncTask<Void, Void, List<Workout>> {
 
             @Override
             protected List<Workout> doInBackground(Void... voids) {
@@ -68,5 +59,20 @@ public class activity_workouts extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
             }
         }
+
+        GetWorkouts gw = new GetWorkouts();
+        gw.execute();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        getWorkouts();
+    }
+
+    public void newWorkout(View view){
+        Intent myIntent = new Intent(activity_workouts.this, activity_timer.class);
+        //myIntent.putExtra("key", value); //Optional parameters
+        activity_workouts.this.startActivity(myIntent);
     }
 }

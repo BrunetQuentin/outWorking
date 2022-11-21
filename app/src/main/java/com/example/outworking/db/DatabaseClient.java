@@ -52,8 +52,8 @@ public class DatabaseClient {
             super.onCreate(db);
 
             // populate database
-            db.execSQL("INSERT INTO workout VALUES(null, 'Séance 1', 10, 10, 10, 10, 10, 10);");
-            db.execSQL("INSERT INTO workout VALUES(null, 'Séance 2', 10, 10, 10, 10, 10, 10);");
+            db.execSQL("INSERT INTO workout VALUES(null, 'Séance 1', 10, 10, 10, 10, 10, 10, 10);");
+            db.execSQL("INSERT INTO workout VALUES(null, 'Séance 2', 10, 10, 10, 10, 10, 10, 10);");
 
         }
     };

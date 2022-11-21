@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
 import com.example.outworking.db.Workout;
 
 import java.util.HashMap;
@@ -58,13 +60,26 @@ public class WorkoutAdapter extends ArrayAdapter<Workout> {
             put("Cool Down", workout.getCoolDown());
         }};
 
+        LinearLayout activityDetail = (LinearLayout) rowView.findViewById(R.id.workoutPro);
+
         int index = 1;
 
         for (String key : map.keySet()) {
             TextView line = new TextView(getContext());
+            line.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
             line.setText(index + ". " + key + ": " + map.get(key) + " sec");
+            activityDetail.addView(line);
             index++;
         }
+
+        TextView detail = new TextView(getContext());
+        int total = (workout.getWork() + workout.getRest()) * workout.getCycles();
+        int secTotal = total % 60;
+        int minTotal = (total / 60) % 60;
+        detail.setText("Total: " + minTotal + ":" + secTotal + " * " + workout.getCycles() + " * " + workout.getSets());
+        detail.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
+        activityDetail.addView(detail);
+
         return rowView;
     }
 
