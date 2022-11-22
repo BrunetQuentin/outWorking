@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id=""
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="16px"
+        android:baselineAlignBottom="false"
+        android:scaleType="fitXY"
+        android:src="@android:drawable/ic_menu_save"
+        android:tint="@color/white"
+        android:tintMode="add"
+        app:backgroundTint="@color/white"
+        app:backgroundTintMode="multiply"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toTopOf="@+id/add_alarm_fab"
+        app:layout_constraintEnd_toEndOf="@+id/add_alarm_fab"
+        app:layout_constraintStart_toStartOf="@+id/add_alarm_fab"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id=""
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="16px"
+        android:baselineAlignBottom="false"
+        android:scaleType="fitXY"
+        android:src="@android:drawable/ic_media_play"
+        android:tint="@color/white"
+        android:tintMode="add"
+        app:backgroundTint="#3D314A"
+        app:backgroundTintMode="multiply"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toTopOf="@+id/add_alarm_fab"
+        app:layout_constraintEnd_toEndOf="@+id/add_alarm_fab"
+        app:layout_constraintStart_toStartOf="@+id/add_alarm_fab"
+        tools:ignore="SpeakableTextPresentCheck" />
+</LinearLayout>
