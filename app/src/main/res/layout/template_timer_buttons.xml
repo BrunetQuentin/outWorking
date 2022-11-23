@@ -8,7 +8,7 @@
     android:orientation="horizontal">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id=""
+        android:id="@+id/zdsqd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -21,13 +21,10 @@
         app:backgroundTint="@color/white"
         app:backgroundTintMode="multiply"
         app:fabSize="mini"
-        app:layout_constraintBottom_toTopOf="@+id/add_alarm_fab"
-        app:layout_constraintEnd_toEndOf="@+id/add_alarm_fab"
-        app:layout_constraintStart_toStartOf="@+id/add_alarm_fab"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id=""
+        android:id="@+id/qzdqzda"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -40,8 +37,5 @@
         app:backgroundTint="#3D314A"
         app:backgroundTintMode="multiply"
         app:fabSize="mini"
-        app:layout_constraintBottom_toTopOf="@+id/add_alarm_fab"
-        app:layout_constraintEnd_toEndOf="@+id/add_alarm_fab"
-        app:layout_constraintStart_toStartOf="@+id/add_alarm_fab"
         tools:ignore="SpeakableTextPresentCheck" />
 </LinearLayout>

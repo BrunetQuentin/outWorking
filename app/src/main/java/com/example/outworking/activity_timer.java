@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,7 @@ import com.example.outworking.db.Workout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -119,5 +122,13 @@ public class activity_timer extends AppCompatActivity {
             EditText text =  findViewById(entry.getValue());
             modifyValue(entry.getKey(),Integer.parseInt(String.valueOf(text.getText())));
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void playWorkout(View view) {
+        saveWorkout(view);
+        Intent playWorkout = new Intent(activity_timer.this, play_workout.class);
+        playWorkout.putExtra("WORKOUT", (Serializable) workout); //Optional parameters
+        activity_timer.this.startActivity(playWorkout);
     }
 }

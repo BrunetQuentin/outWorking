@@ -4,8 +4,10 @@ package com.example.outworking.db;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(tableName = "workout")
-public class Workout {
+public class Workout implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private long id;

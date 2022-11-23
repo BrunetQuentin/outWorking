@@ -1,10 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/zad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_margin="16px"
+            android:baselineAlignBottom="false"
+            android:scaleType="fitXY"
+            android:src="@android:drawable/ic_menu_save"
+            android:tint="@color/white"
+            android:tintMode="add"
+            app:backgroundTint="@color/white"
+            app:backgroundTintMode="multiply"
+            app:fabSize="mini"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/sd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_margin="16px"
+            android:baselineAlignBottom="false"
+            android:onClick="playWorkout"
+            android:scaleType="fitXY"
+            android:src="@android:drawable/ic_media_play"
+            android:tint="@color/white"
+            android:tintMode="add"
+            app:backgroundTint="#3D314A"
+            app:backgroundTintMode="multiply"
+            app:fabSize="mini"
+            tools:ignore="SpeakableTextPresentCheck" />
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
