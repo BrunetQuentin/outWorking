@@ -62,7 +62,7 @@
             android:textSize="128dp" />
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/activityName"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -114,6 +114,7 @@
     </LinearLayout>
 
     <ScrollView
+        android:id="@+id/scrollActivities"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:ignore="SpeakableTextPresentCheck">

@@ -10,5 +10,8 @@ public interface OnUpdateListener {
     // Méthode appelée à chaque update de l'objet de type UpdateSource (après abonnement)
     public void onUpdate();
 
+    // Méthode appelée dés que une activitée est changé
+    public void onUpdateActivity();
+
 }
 

@@ -2,6 +2,9 @@ package com.example.outworking.Compteur;
 
 import android.os.CountDownTimer;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  * Created by fbm on 24/10/2017.
  */
@@ -11,14 +14,17 @@ public class Compteur extends UpdateSource {
     private final static long INITIAL_TIME = 5000;
 
     // DATA
-    private long updatedTime = INITIAL_TIME;
+    private long updatedTime = 0;
     private CountDownTimer timer;   // https://developer.android.com/reference/android/os/CountDownTimer.html
 
     private boolean isPaused = true;
+    private ArrayList<HashMap<String, Integer>> activities;
 
+    int currentActivityIndex = 1;
 
-    public Compteur() {
-        updatedTime = INITIAL_TIME;
+    public Compteur(ArrayList<HashMap<String, Integer>> activities) {
+        this.activities = activities;
+        updateTime();
     }
 
     // Lancer le compteur
@@ -41,14 +47,23 @@ public class Compteur extends UpdateSource {
                 // Callback fired when the time is up
                 public void onFinish() {
                     updatedTime = 0;
-
-                    // Mise à jour
-                    update();
+                    startActivity(1);
                 }
 
             }.start();   // Start the countdown
         }
 
+    }
+
+    public void startActivity(int index){
+        stop();
+        currentActivityIndex += index;
+        // Mise à jour events
+        updateActivity();
+        update();
+
+        updateTime();
+        this.start();
     }
 
     // Mettre en pause le compteur
@@ -62,6 +77,10 @@ public class Compteur extends UpdateSource {
             // Mise à jour
             update();
         }
+    }
+
+    public void updateTime(){
+        updatedTime = Long.parseLong(activities.get(currentActivityIndex).values().toArray()[0].toString()) * 1000;
     }
 
 
@@ -104,4 +123,11 @@ public class Compteur extends UpdateSource {
 
     public boolean isPaused(){return isPaused;}
 
+    public String getActivtyName(){
+        return activities.get(currentActivityIndex).keySet().toArray()[0].toString();
+    }
+
+    public int getCurrentActivityIndex(){
+        return currentActivityIndex;
+    }
 }
