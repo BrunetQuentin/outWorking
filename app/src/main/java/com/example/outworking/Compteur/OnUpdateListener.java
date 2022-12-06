@@ -13,5 +13,11 @@ public interface OnUpdateListener {
     // Méthode appelée dés que une activitée est changé
     public void onUpdateActivity();
 
+    // Méthode appelée quand le timer est lancé ou stoppé
+    public void onStatusChange();
+
+    // Méthode appelée quand une activitée est finis
+    public void onActivityFinish();
+
 }
 

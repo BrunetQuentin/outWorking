@@ -20,7 +20,7 @@ public class Compteur extends UpdateSource {
     private boolean isPaused = true;
     private ArrayList<HashMap<String, Integer>> activities;
 
-    int currentActivityIndex = 1;
+    int currentActivityIndex = 0;
 
     public Compteur(ArrayList<HashMap<String, Integer>> activities) {
         this.activities = activities;
@@ -30,6 +30,7 @@ public class Compteur extends UpdateSource {
     // Lancer le compteur
     public void start() {
         isPaused = false;
+        onStatusChange();
 
         if (timer == null) {
 
@@ -47,6 +48,7 @@ public class Compteur extends UpdateSource {
                 // Callback fired when the time is up
                 public void onFinish() {
                     updatedTime = 0;
+                    onActivityFinish();
                     startActivity(1);
                 }
 
@@ -56,13 +58,22 @@ public class Compteur extends UpdateSource {
     }
 
     public void startActivity(int index){
+        if((currentActivityIndex + index) < 0){
+            reset();
+            return;
+        }
+        if((currentActivityIndex + index) >= activities.size()){
+            updatedTime = 0;
+            update();
+            stop();
+            return;
+        }
         stop();
         currentActivityIndex += index;
         // Mise à jour events
         updateActivity();
-        update();
-
         updateTime();
+        update();
         this.start();
     }
 
@@ -94,18 +105,21 @@ public class Compteur extends UpdateSource {
         }
 
         // Réinitialiser
-        updatedTime = INITIAL_TIME;
+        updateTime();
 
         // Mise à jour
         update();
-
+        this.start();
     }
 
     // Arrete l'objet CountDownTimer et l'efface
     private void stop() {
-        isPaused = true;
-        timer.cancel();
-        timer = null;
+        if(timer != null){
+            isPaused = true;
+            onStatusChange();
+            timer.cancel();
+            timer = null;
+        }
     }
 
     public int getMinutes() {

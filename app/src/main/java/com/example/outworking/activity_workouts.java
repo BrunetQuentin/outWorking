@@ -75,4 +75,16 @@ public class activity_workouts extends AppCompatActivity {
         //myIntent.putExtra("key", value); //Optional parameters
         activity_workouts.this.startActivity(myIntent);
     }
+
+    public void playExistingWorkout(View view){
+        Intent myIntent = new Intent(activity_workouts.this, activity_timer.class);
+        //myIntent.putExtra("key", value); //Optional parameters
+        activity_workouts.this.startActivity(myIntent);
+    }
+
+    public void editWorkout(View view){
+        Intent myIntent = new Intent(activity_workouts.this, activity_timer.class);
+        //myIntent.putExtra("key", value); //Optional parameters
+        activity_workouts.this.startActivity(myIntent);
+    }
 }

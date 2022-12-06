@@ -1,8 +1,10 @@
 package com.example.outworking;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +38,8 @@ public class play_workout<activities> extends AppCompatActivity implements OnUpd
 
     ScrollView scrollActivities;
 
+    FloatingActionButton playButton;
+
     ArrayList<HashMap<String, Integer>> activities;
 
     @SuppressLint("MissingInflatedId")
@@ -53,6 +57,8 @@ public class play_workout<activities> extends AppCompatActivity implements OnUpd
 
         scrollActivities = (ScrollView) findViewById(R.id.scrollActivities);
         scrollActivities.setSmoothScrollingEnabled(true);
+
+        playButton = (FloatingActionButton) findViewById(R.id.playButton);
 
         activities = new ArrayList<HashMap<String, Integer>>();
 
@@ -100,8 +106,8 @@ public class play_workout<activities> extends AppCompatActivity implements OnUpd
                 }
                 continue;
             }
-            index++;
             addActivity(index, ordre[i], map.get(ordre[i]), "Run");
+            index++;
             int finalI = i;
             activities.add(index-1, new HashMap<String, Integer>() {{
                 put(ordre[finalI], map.get(ordre[finalI]));
@@ -122,24 +128,17 @@ public class play_workout<activities> extends AppCompatActivity implements OnUpd
 
     }
 
-    @SuppressLint("ResourceAsColor")
     private void miseAJourActivity() {
         // Affiche le nom de l'activité
         activityValue.setText(compteur.getActivtyName());
-
-        View activityLine = displayActivities.findViewById(compteur.getCurrentActivityIndex());
-        activityLine.setBackgroundColor(R.color.purple_200);
-        scrollActivities.scrollToDescendant(activityLine);
     }
 
     public void playTimer(View view) {
         FloatingActionButton playButton = (FloatingActionButton) findViewById(R.id.playButton);
 
         if(compteur.isPaused()){
-            playButton.setImageResource(R.drawable.pause_solid);
             compteur.start();
         }else {
-            playButton.setImageResource(R.drawable.play_solid);
             compteur.pause();
         }
     }
@@ -149,9 +148,31 @@ public class play_workout<activities> extends AppCompatActivity implements OnUpd
         miseAJour();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     public void onUpdateActivity() {
         miseAJourActivity();
+    }
+
+    @Override
+    public void onStatusChange() {
+        if(compteur.isPaused()){
+            playButton.setImageResource(R.drawable.play_solid);
+        }else {
+            playButton.setImageResource(R.drawable.pause_solid);
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    @SuppressLint("ResourceAsColor")
+    @Override
+    public void onActivityFinish(){
+        System.out.println(compteur.getCurrentActivityIndex());
+        View activityLine = displayActivities.findViewById(compteur.getCurrentActivityIndex());
+        if(activityLine != null){
+            activityLine.setBackgroundColor(R.color.purple_200);
+            scrollActivities.smoothScrollTo(0, (int)activityLine.getY());
+        }
     }
 
     public void affichageExercices(){
@@ -175,7 +196,7 @@ public class play_workout<activities> extends AppCompatActivity implements OnUpd
         View line = inflater.inflate(R.layout.template_play_workout, null);
 
         TextView indexView = line.findViewById(R.id.index);
-        indexView.setText(index + ".");
+        indexView.setText((index + 1) + ".");
 
         TextView activityView = line.findViewById(R.id.activity);
         activityView.setText(activity + ".");
@@ -189,5 +210,13 @@ public class play_workout<activities> extends AppCompatActivity implements OnUpd
         line.setId(index);
 
         displayActivities.addView(line);
+    }
+
+    public void goForward(View view){
+        compteur.startActivity(1);
+    }
+
+    public void goBackward(View view){
+        compteur.startActivity(-1);
     }
 }

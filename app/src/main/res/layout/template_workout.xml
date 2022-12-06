@@ -28,17 +28,19 @@
 
             <ImageView
                 android:id="@+id/workoutPlay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_gravity="center"
-                app:srcCompat="@android:drawable/ic_media_play" />
+                app:tint="@color/white"
+                app:srcCompat="@drawable/play_solid" />
 
             <ImageView
                 android:id="@+id/workoutPlay2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_gravity="center"
-                app:srcCompat="@android:drawable/editbox_background" />
+                app:tint="@color/white"
+                app:srcCompat="@drawable/pen_to_square_solid" />
 
         </LinearLayout>
 

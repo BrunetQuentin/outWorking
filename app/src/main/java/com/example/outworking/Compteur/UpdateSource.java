@@ -32,4 +32,18 @@ public class UpdateSource {
         for (OnUpdateListener listener : listeners)
             listener.onUpdateActivity();
     }
+
+    // Méthode
+    public void onStatusChange() {
+
+        // Notify everybody that may be interested.
+        for (OnUpdateListener listener : listeners)
+            listener.onStatusChange();
+    }
+
+    public void onActivityFinish(){
+        // Notify everybody that may be interested.
+        for (OnUpdateListener listener : listeners)
+            listener.onActivityFinish();
+    }
 }
