@@ -7,49 +7,22 @@
     android:orientation="vertical">
 
 
-    <LinearLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:hint="Nom de l'exercice"
+        app:hintTextColor="#684756">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/zad"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/activityName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_margin="16px"
-            android:baselineAlignBottom="false"
-            android:scaleType="fitXY"
-            android:src="@android:drawable/ic_menu_save"
-            android:tint="@color/white"
-            android:tintMode="add"
-            app:backgroundTint="@color/white"
-            app:backgroundTintMode="multiply"
-            app:fabSize="mini"
-            tools:ignore="SpeakableTextPresentCheck" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/sd"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_margin="16px"
-            android:baselineAlignBottom="false"
-            android:onClick="playWorkout"
-            android:scaleType="fitXY"
-            android:src="@android:drawable/ic_media_play"
-            android:tint="@color/white"
-            android:tintMode="add"
-            app:backgroundTint="#3D314A"
-            app:backgroundTintMode="multiply"
-            app:fabSize="mini"
-            tools:ignore="SpeakableTextPresentCheck" />
-    </LinearLayout>
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
         tools:ignore="SpeakableTextPresentCheck">
 
         <LinearLayout
@@ -58,5 +31,36 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" />
     </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/saveNewWorkout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_margin="16px"
+            android:onClick="saveInDbWorkout"
+            android:src="@drawable/floppy_disk_solid"
+            app:backgroundTint="#3D314A"
+            app:tint="@color/white"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/playNewWorkout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_margin="16px"
+            android:onClick="playWorkout"
+            android:src="@drawable/play_solid"
+            app:backgroundTint="#3D314A"
+            app:tint="@color/white"
+            tools:ignore="SpeakableTextPresentCheck" />
+    </LinearLayout>
 
 </LinearLayout>

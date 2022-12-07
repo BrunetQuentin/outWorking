@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:onClick="goForward"
     android:orientation="vertical">
 
     <LinearLayout
@@ -14,15 +13,16 @@
         android:padding="16px">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButn"
+            android:id="@+id/lockedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
+            android:onClick="lockUnlock"
             app:backgroundTint="@android:color/transparent"
             app:fabCustomSize="56px"
             app:fabSize="mini"
             app:maxImageSize="54px"
-            app:srcCompat="@drawable/lock_solid"
+            app:srcCompat="@drawable/lock_open_solid"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView
@@ -54,17 +54,17 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/temp_activite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="16dp"
+            android:layout_weight="1"
             android:text="20"
             android:textAlignment="center"
-            android:textSize="128dp" />
+            android:textSize="72dp" />
 
         <TextView
             android:id="@+id/activityName"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
@@ -94,7 +94,7 @@
             tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/compteur_activite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

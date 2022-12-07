@@ -2,6 +2,8 @@ package com.example.outworking;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +14,9 @@ import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 
 import com.example.outworking.db.Workout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.EventListener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,6 +83,21 @@ public class WorkoutAdapter extends ArrayAdapter<Workout> {
         detail.setText("Total: " + minTotal + ":" + secTotal + " * " + workout.getCycles() + " * " + workout.getSets());
         detail.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
         activityDetail.addView(detail);
+
+        FloatingActionButton playWorkshopButton = rowView.findViewById(R.id.playWorkshopButton);
+        FloatingActionButton editWorkshopButton = rowView.findViewById(R.id.editWorkshopButton);
+
+        playWorkshopButton.setOnClickListener(view -> {
+            Intent myIntent = new Intent(getContext() , play_workout.class);
+            myIntent.putExtra("WORKOUT", workout);
+            getContext().startActivity(myIntent);
+        });
+
+        editWorkshopButton.setOnClickListener(view -> {
+            Intent myIntent = new Intent(getContext() , activity_timer.class);
+            myIntent.putExtra("WORKOUT", workout);
+            getContext().startActivity(myIntent);
+        });
 
         return rowView;
     }

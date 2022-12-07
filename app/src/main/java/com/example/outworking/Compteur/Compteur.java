@@ -22,9 +22,20 @@ public class Compteur extends UpdateSource {
 
     int currentActivityIndex = 0;
 
+    long remainingTimeUtilFinished = 0;
+
+    private int numberOfActivities = 0;
+
     public Compteur(ArrayList<HashMap<String, Integer>> activities) {
         this.activities = activities;
-        updateTime();
+
+        numberOfActivities = activities.size();
+
+        for (HashMap<String, Integer> activity: activities) {
+            remainingTimeUtilFinished += Long.parseLong(activity.values().toArray()[0].toString()) * 1000;
+        }
+        // minus the first activity as this is always playing
+        remainingTimeUtilFinished -= Long.parseLong(activities.get(0).values().toArray()[0].toString()) * 1000;
     }
 
     // Lancer le compteur
@@ -57,9 +68,13 @@ public class Compteur extends UpdateSource {
 
     }
 
+    // index == 1 go forward
+    // index == -1 go backward
+    // index == 0 reload the activity with callbacks
     public void startActivity(int index){
+        boolean paused = isPaused;
         if((currentActivityIndex + index) < 0){
-            reset();
+            reset(paused);
             return;
         }
         if((currentActivityIndex + index) >= activities.size()){
@@ -68,13 +83,16 @@ public class Compteur extends UpdateSource {
             stop();
             return;
         }
+        if(index != 0) onActivityFinish();
         stop();
         currentActivityIndex += index;
+        remainingTimeUtilFinished -= Long.parseLong(activities.get(currentActivityIndex).values().toArray()[0].toString()) * 1000 * index;
         // Mise à jour events
         updateActivity();
         updateTime();
         update();
         this.start();
+        if(paused) this.pause();
     }
 
     // Mettre en pause le compteur
@@ -96,7 +114,7 @@ public class Compteur extends UpdateSource {
 
 
     // Remettre à le compteur à la valeur initiale
-    public void reset() {
+    public void reset(boolean paused) {
 
         if (timer != null) {
 
@@ -110,6 +128,7 @@ public class Compteur extends UpdateSource {
         // Mise à jour
         update();
         this.start();
+        if(paused) this.pause();
     }
 
     // Arrete l'objet CountDownTimer et l'efface
@@ -135,6 +154,19 @@ public class Compteur extends UpdateSource {
         return (int) (updatedTime % 1000);
     }
 
+    public int getTotalMinutes() {
+        return (int) ((remainingTimeUtilFinished + updatedTime) / 1000)/60;
+    }
+
+    public int getTotalSecondes() {
+        int secs = (int) ((remainingTimeUtilFinished + updatedTime) / 1000);
+        return secs % 60;
+    }
+
+    public int getTotalMillisecondes() {
+        return (int) ((remainingTimeUtilFinished + updatedTime) % 1000);
+    }
+
     public boolean isPaused(){return isPaused;}
 
     public String getActivtyName(){
@@ -144,4 +176,6 @@ public class Compteur extends UpdateSource {
     public int getCurrentActivityIndex(){
         return currentActivityIndex;
     }
+
+    public int getNumberOfActivities(){return numberOfActivities;}
 }

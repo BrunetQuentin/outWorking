@@ -12,6 +12,7 @@ import android.widget.ListView;
 import com.example.outworking.db.AppDatabase;
 import com.example.outworking.db.DatabaseClient;
 import com.example.outworking.db.Workout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,19 +73,6 @@ public class activity_workouts extends AppCompatActivity {
 
     public void newWorkout(View view){
         Intent myIntent = new Intent(activity_workouts.this, activity_timer.class);
-        //myIntent.putExtra("key", value); //Optional parameters
-        activity_workouts.this.startActivity(myIntent);
-    }
-
-    public void playExistingWorkout(View view){
-        Intent myIntent = new Intent(activity_workouts.this, activity_timer.class);
-        //myIntent.putExtra("key", value); //Optional parameters
-        activity_workouts.this.startActivity(myIntent);
-    }
-
-    public void editWorkout(View view){
-        Intent myIntent = new Intent(activity_workouts.this, activity_timer.class);
-        //myIntent.putExtra("key", value); //Optional parameters
         activity_workouts.this.startActivity(myIntent);
     }
 }

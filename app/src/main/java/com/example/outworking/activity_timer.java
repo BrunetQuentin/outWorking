@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -16,18 +17,24 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.outworking.db.DatabaseClient;
 import com.example.outworking.db.Workout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
 public class activity_timer extends AppCompatActivity {
 
     Workout workout;
+
+    private DatabaseClient db;
+
+    private TextInputEditText activityName;
 
     String[] keys = new String[] { "Prepare", "Work", "Rest", "Cycles", "Sets", "Rest between sets", "Cool Down" };
 
@@ -40,13 +47,27 @@ public class activity_timer extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timer);
 
+        db = DatabaseClient.getInstance(getApplicationContext());
+
         workout = (Workout) getIntent().getSerializableExtra("WORKOUT");
 
         if(workout == null){
             workout = new Workout();
+            // default params
+            workout.setTitle("Nouveau exercice");
+            workout.setPrepare(30);
+            workout.setWork(20);
+            workout.setRest(10);
+            workout.setCycles(12);
+            workout.setSets(3);
+            workout.setRestBetweenSets(90);
+            workout.setCoolDown(60);
         }
 
         LinearLayout timer = (LinearLayout) findViewById(R.id.activity_timer);
+
+        activityName = (TextInputEditText) findViewById(R.id.activityName);
+        activityName.setText(workout.getTitle());
 
         ids = new HashMap<String, Integer>();
 
@@ -117,18 +138,32 @@ public class activity_timer extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void saveWorkout(View view){
+    public void saveObjectWorkout(View view){
         for(Map.Entry<String, Integer> entry : ids.entrySet()){
             EditText text =  findViewById(entry.getValue());
             modifyValue(entry.getKey(),Integer.parseInt(String.valueOf(text.getText())));
         }
+        workout.setTitle(activityName.getText().toString());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void playWorkout(View view) {
-        saveWorkout(view);
+        saveObjectWorkout(view);
         Intent playWorkout = new Intent(activity_timer.this, play_workout.class);
         playWorkout.putExtra("WORKOUT", (Serializable) workout); //Optional parameters
         activity_timer.this.startActivity(playWorkout);
+    }
+
+    public void saveInDbWorkout(View view) {
+        class SaveInDbWorkout extends AsyncTask<Workout, Void, Void> {
+            @Override
+            protected Void doInBackground(Workout... workouts) {
+                db.getAppDatabase().workoutDao().update(workout);
+                return null;
+            }
+        }
+
+        SaveInDbWorkout sw = new SaveInDbWorkout();
+        sw.execute();
     }
 }

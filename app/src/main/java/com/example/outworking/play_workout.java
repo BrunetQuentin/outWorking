@@ -19,16 +19,19 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 import java.util.function.Supplier;
 
 public class play_workout<activities> extends AppCompatActivity implements OnUpdateListener {
 
     private TextView timerValue;
 
+    private TextView activityName;
+
     private TextView activityValue;
+
+    private TextView activityCompteur;
+
+    private FloatingActionButton lockedButton;
 
     private Compteur compteur;
 
@@ -42,6 +45,8 @@ public class play_workout<activities> extends AppCompatActivity implements OnUpd
 
     ArrayList<HashMap<String, Integer>> activities;
 
+    boolean isLocked = false;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +56,9 @@ public class play_workout<activities> extends AppCompatActivity implements OnUpd
         workout = (Workout) getIntent().getSerializableExtra("WORKOUT");
 
         timerValue = (TextView) findViewById(R.id.temps_global);
-        activityValue = (TextView) findViewById(R.id.activityName);
+        activityName = (TextView) findViewById(R.id.activityName);
+        activityValue = (TextView) findViewById(R.id.temp_activite);
+        activityCompteur = (TextView) findViewById(R.id.compteur_activite);
 
         displayActivities = (LinearLayout) findViewById(R.id.display_activities);
 
@@ -59,6 +66,8 @@ public class play_workout<activities> extends AppCompatActivity implements OnUpd
         scrollActivities.setSmoothScrollingEnabled(true);
 
         playButton = (FloatingActionButton) findViewById(R.id.playButton);
+
+        lockedButton = (FloatingActionButton) findViewById(R.id.lockedButton);
 
         activities = new ArrayList<HashMap<String, Integer>>();
 
@@ -106,7 +115,7 @@ public class play_workout<activities> extends AppCompatActivity implements OnUpd
                 }
                 continue;
             }
-            addActivity(index, ordre[i], map.get(ordre[i]), "Run");
+            addActivity(index, ordre[i], map.get(ordre[i]));
             index++;
             int finalI = i;
             activities.add(index-1, new HashMap<String, Integer>() {{
@@ -116,26 +125,28 @@ public class play_workout<activities> extends AppCompatActivity implements OnUpd
 
         compteur = new Compteur(activities);
         compteur.addOnUpdateListener(this);
+        compteur.startActivity(0);
 
         miseAJour();
     }
 
     private void miseAJour() {
         // Affichage des informations du compteur
-        timerValue.setText("" + compteur.getMinutes() + ":"
-                + String.format("%02d", compteur.getSecondes()) + ":"
-                + String.format("%03d", compteur.getMillisecondes()));
-
+        timerValue.setText("" + compteur.getTotalMinutes() + ":"
+                + String.format("%02d", compteur.getTotalSecondes()) + ":"
+                + String.format("%03d", compteur.getTotalMillisecondes()));
+        activityValue.setText(compteur.getMinutes() + ":" + String.format("%02d", compteur.getSecondes()));
     }
 
     private void miseAJourActivity() {
         // Affiche le nom de l'activité
-        activityValue.setText(compteur.getActivtyName());
+        System.out.println("Je passe");
+        activityName.setText(compteur.getActivtyName());
+        activityCompteur.setText((compteur.getCurrentActivityIndex() + 1) + "/" + compteur.getNumberOfActivities());
     }
 
     public void playTimer(View view) {
-        FloatingActionButton playButton = (FloatingActionButton) findViewById(R.id.playButton);
-
+        if(isLocked) return;
         if(compteur.isPaused()){
             compteur.start();
         }else {
@@ -167,7 +178,6 @@ public class play_workout<activities> extends AppCompatActivity implements OnUpd
     @SuppressLint("ResourceAsColor")
     @Override
     public void onActivityFinish(){
-        System.out.println(compteur.getCurrentActivityIndex());
         View activityLine = displayActivities.findViewById(compteur.getCurrentActivityIndex());
         if(activityLine != null){
             activityLine.setBackgroundColor(R.color.purple_200);
@@ -175,23 +185,9 @@ public class play_workout<activities> extends AppCompatActivity implements OnUpd
         }
     }
 
-    public void affichageExercices(){
-        LinearLayout displayActivities = (LinearLayout) findViewById(R.id.display_activities);
-
-        HashMap<String, Supplier<Integer>> map = new HashMap<String, Supplier<Integer>>(){{
-            put("Prepare", () -> workout.getPrepare());
-            put("Work", () -> workout.getWork());
-            put("Rest", () -> workout.getRest());
-            put("Cycles", () -> workout.getCycles());
-            put("Sets", () -> workout.getSets());
-            put("Rest between sets", () -> workout.getRestBetweenSets());
-            put("Cool Down", () -> workout.getCoolDown());
-        }};
-    }
-
 
     // add activity in the list of activities
-    public void addActivity(int index, String activity, int time, String detail){
+    public void addActivity(int index, String activity, int time){
         LayoutInflater inflater = LayoutInflater.from(play_workout.this); // 1
         View line = inflater.inflate(R.layout.template_play_workout, null);
 
@@ -204,19 +200,27 @@ public class play_workout<activities> extends AppCompatActivity implements OnUpd
         TextView timeView = line.findViewById(R.id.time);
         timeView.setText(Integer.toString(time));
 
-        TextView detailView = line.findViewById(R.id.detail);
-        detailView.setText(detail);
-
         line.setId(index);
 
         displayActivities.addView(line);
     }
 
     public void goForward(View view){
+        if(isLocked) return;
         compteur.startActivity(1);
     }
 
     public void goBackward(View view){
+        if(isLocked) return;
         compteur.startActivity(-1);
+    }
+
+    public void lockUnlock(View view){
+        isLocked = !isLocked;
+        if(isLocked){
+            lockedButton.setImageResource(R.drawable.lock_solid);
+        }else {
+            lockedButton.setImageResource(R.drawable.lock_open_solid);
+        }
     }
 }
