@@ -140,7 +140,6 @@ public class play_workout<activities> extends AppCompatActivity implements OnUpd
 
     private void miseAJourActivity() {
         // Affiche le nom de l'activité
-        System.out.println("Je passe");
         activityName.setText(compteur.getActivtyName());
         activityCompteur.setText((compteur.getCurrentActivityIndex() + 1) + "/" + compteur.getNumberOfActivities());
     }

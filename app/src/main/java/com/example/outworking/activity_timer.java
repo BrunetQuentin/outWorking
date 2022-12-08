@@ -40,6 +40,8 @@ public class activity_timer extends AppCompatActivity {
 
     HashMap<String, Integer> ids;
 
+    private boolean isNew = false;
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint("MissingInflatedId")
     @Override
@@ -52,9 +54,10 @@ public class activity_timer extends AppCompatActivity {
         workout = (Workout) getIntent().getSerializableExtra("WORKOUT");
 
         if(workout == null){
+            isNew = true;
             workout = new Workout();
             // default params
-            workout.setTitle("Nouveau exercice");
+            workout.setTitle("Nouvel exercice");
             workout.setPrepare(30);
             workout.setWork(20);
             workout.setRest(10);
@@ -132,8 +135,6 @@ public class activity_timer extends AppCompatActivity {
             put("Rest between sets", () -> workout.getRestBetweenSets());
             put("Cool Down", () -> workout.getCoolDown());
         }};
-
-        System.out.println(map.get(key));
         return map.get(key).get();
     }
 
@@ -154,16 +155,25 @@ public class activity_timer extends AppCompatActivity {
         activity_timer.this.startActivity(playWorkout);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void saveInDbWorkout(View view) {
-        class SaveInDbWorkout extends AsyncTask<Workout, Void, Void> {
+        class SaveInDbWorkout extends AsyncTask<Void, Void, Void> {
             @Override
-            protected Void doInBackground(Workout... workouts) {
-                db.getAppDatabase().workoutDao().update(workout);
+            protected Void doInBackground(Void... voids) {
+                if(isNew){
+                    db.getAppDatabase().workoutDao().insert(workout);
+                }else {
+                    db.getAppDatabase().workoutDao().update(workout);
+                }
                 return null;
             }
         }
 
+        this.saveObjectWorkout(view);
         SaveInDbWorkout sw = new SaveInDbWorkout();
         sw.execute();
+
+        Intent activityWorkouts = new Intent(activity_timer.this, activity_workouts.class);
+        activity_timer.this.startActivity(activityWorkouts);
     }
 }

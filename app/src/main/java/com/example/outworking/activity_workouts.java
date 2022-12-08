@@ -75,4 +75,5 @@ public class activity_workouts extends AppCompatActivity {
         Intent myIntent = new Intent(activity_workouts.this, activity_timer.class);
         activity_workouts.this.startActivity(myIntent);
     }
+
 }

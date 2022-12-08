@@ -20,6 +20,19 @@
             android:orientation="horizontal">
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/DeleteWorkshopButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                app:backgroundTint="@android:color/transparent"
+                app:fabCustomSize="56px"
+                app:fabSize="normal"
+                app:maxImageSize="72px"
+                app:srcCompat="@drawable/xmark_solid"
+                app:tint="@android:color/white"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/editWorkshopButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

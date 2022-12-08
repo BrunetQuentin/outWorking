@@ -2,8 +2,8 @@ package com.example.outworking;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,19 +13,21 @@ import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 
+import com.example.outworking.db.DatabaseClient;
 import com.example.outworking.db.Workout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.EventListener;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 public class WorkoutAdapter extends ArrayAdapter<Workout> {
 
+    private DatabaseClient db;
+
     public WorkoutAdapter(Context mCtx, List<Workout> workoutList) {
         super(mCtx, R.layout.template_workout, workoutList);
+        db = DatabaseClient.getInstance(mCtx);
     }
 
     /**
@@ -85,7 +87,8 @@ public class WorkoutAdapter extends ArrayAdapter<Workout> {
         activityDetail.addView(detail);
 
         FloatingActionButton playWorkshopButton = rowView.findViewById(R.id.playWorkshopButton);
-        FloatingActionButton editWorkshopButton = rowView.findViewById(R.id.editWorkshopButton);
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) FloatingActionButton editWorkshopButton = rowView.findViewById(R.id.editWorkshopButton);
+        FloatingActionButton deleteWorkshopButton = rowView.findViewById(R.id.DeleteWorkshopButton);
 
         playWorkshopButton.setOnClickListener(view -> {
             Intent myIntent = new Intent(getContext() , play_workout.class);
@@ -99,7 +102,24 @@ public class WorkoutAdapter extends ArrayAdapter<Workout> {
             getContext().startActivity(myIntent);
         });
 
+        deleteWorkshopButton.setOnClickListener(view -> {
+            deleteWorkout(workout);
+            this.remove(workout);
+        });
+
         return rowView;
+    }
+
+    public void deleteWorkout(Workout workout) {
+        class DeleteInDbWorkout extends AsyncTask<Void, Void, Void> {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                db.getAppDatabase().workoutDao().delete(workout);
+                return null;
+            }
+        }
+        DeleteInDbWorkout dw = new DeleteInDbWorkout();
+        dw.execute();
     }
 
 }
