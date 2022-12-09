@@ -19,5 +19,7 @@ public interface OnUpdateListener {
     // Méthode appelée quand une activitée est finis
     public void onActivityFinish();
 
+    // Méthode appelée quand toute la derniére activitée est finis
+    public void onFinish();
 }
 

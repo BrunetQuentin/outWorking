@@ -4,6 +4,8 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -47,6 +49,8 @@ public class play_workout<activities> extends AppCompatActivity implements OnUpd
 
     boolean isLocked = false;
 
+    HashMap<String, Integer> numberOfActivitiesCompleted;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +74,8 @@ public class play_workout<activities> extends AppCompatActivity implements OnUpd
         lockedButton = (FloatingActionButton) findViewById(R.id.lockedButton);
 
         activities = new ArrayList<HashMap<String, Integer>>();
+
+        numberOfActivitiesCompleted = new HashMap<>();
 
         HashMap<String, Integer> map = new HashMap<String, Integer>(){{
             put("Prepare", workout.getPrepare());
@@ -142,6 +148,13 @@ public class play_workout<activities> extends AppCompatActivity implements OnUpd
         // Affiche le nom de l'activité
         activityName.setText(compteur.getActivtyName());
         activityCompteur.setText((compteur.getCurrentActivityIndex() + 1) + "/" + compteur.getNumberOfActivities());
+
+        View activityLine = displayActivities.findViewById(compteur.getCurrentActivityIndex() - 1);
+        if(activityLine == null) return;
+        scrollActivities.smoothScrollTo(0, (int)activityLine.getY());
+
+        //final MediaPlayer mp = MediaPlayer.create(this, R.raw.);
+        //mp.start();
     }
 
     public void playTimer(View view) {
@@ -180,8 +193,17 @@ public class play_workout<activities> extends AppCompatActivity implements OnUpd
         View activityLine = displayActivities.findViewById(compteur.getCurrentActivityIndex());
         if(activityLine != null){
             activityLine.setBackgroundColor(R.color.purple_200);
-            scrollActivities.smoothScrollTo(0, (int)activityLine.getY());
         }
+        if(numberOfActivitiesCompleted.get(compteur.getActivtyName()) == null) numberOfActivitiesCompleted.put(compteur.getActivtyName(), 0);
+        numberOfActivitiesCompleted.put(compteur.getActivtyName(), numberOfActivitiesCompleted.get(compteur.getActivtyName()) + 1);
+    }
+
+    @Override
+    public void onFinish() {
+        Intent myIntent = new Intent(play_workout.this , activity_finishWorkout.class);
+        myIntent.putExtra("ACTIVITIESCOMPLETED", numberOfActivitiesCompleted);
+        myIntent.putExtra("WORKOUT", workout);
+        play_workout.this.startActivity(myIntent);
     }
 
 
@@ -222,4 +244,6 @@ public class play_workout<activities> extends AppCompatActivity implements OnUpd
             lockedButton.setImageResource(R.drawable.lock_open_solid);
         }
     }
+
+
 }

@@ -81,9 +81,10 @@ public class Compteur extends UpdateSource {
             updatedTime = 0;
             update();
             stop();
+            onFinish();
             return;
         }
-        if(index != 0) onActivityFinish();
+
         stop();
         currentActivityIndex += index;
         remainingTimeUtilFinished -= Long.parseLong(activities.get(currentActivityIndex).values().toArray()[0].toString()) * 1000 * index;

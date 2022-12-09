@@ -46,4 +46,10 @@ public class UpdateSource {
         for (OnUpdateListener listener : listeners)
             listener.onActivityFinish();
     }
+
+    public void onFinish(){
+        // Notify everybody that may be interested.
+        for (OnUpdateListener listener : listeners)
+            listener.onFinish();
+    }
 }
