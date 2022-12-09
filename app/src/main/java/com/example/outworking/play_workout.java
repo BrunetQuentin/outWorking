@@ -1,18 +1,22 @@
 package com.example.outworking;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.outworking.Compteur.Compteur;
 import com.example.outworking.Compteur.OnUpdateListener;
@@ -96,6 +100,7 @@ public class play_workout<activities> extends AppCompatActivity implements OnUpd
             "Sets",
             "Cool Down",
         };
+        // Creation des activités
         int index = 0;
         int cycles = workout.getCycles();
         int sets = workout.getSets();
@@ -106,7 +111,7 @@ public class play_workout<activities> extends AppCompatActivity implements OnUpd
         for (int i = 0; i < ordre.length; i++) {
             if(ordre[i] == "Cycles") {
                 if(cycles != 0) {
-                    i -= 3;
+                    i -= 3; // on recul de trois pour un cycle
                     cycles--;
                 }
                 continue;
@@ -116,7 +121,7 @@ public class play_workout<activities> extends AppCompatActivity implements OnUpd
                     cycles = workout.getCycles();
                     if(cycles == 0) cycles = 1;
                     cycles--;
-                    i -= 5;
+                    i -= 5; // on recul de cinq pour un set
                     sets--;
                 }
                 continue;
@@ -129,8 +134,11 @@ public class play_workout<activities> extends AppCompatActivity implements OnUpd
             }});
         }
 
+        // Creation du compteur
         compteur = new Compteur(activities);
+        // abbonnement aux eventlistener
         compteur.addOnUpdateListener(this);
+        // update the graphical object
         compteur.startActivity(0);
 
         miseAJour();
@@ -144,6 +152,7 @@ public class play_workout<activities> extends AppCompatActivity implements OnUpd
         activityValue.setText(compteur.getMinutes() + ":" + String.format("%02d", compteur.getSecondes()));
     }
 
+    // Méthode invoqué lors du changement d'une activitée
     private void miseAJourActivity() {
         // Affiche le nom de l'activité
         activityName.setText(compteur.getActivtyName());
@@ -157,8 +166,9 @@ public class play_workout<activities> extends AppCompatActivity implements OnUpd
         //mp.start();
     }
 
+    // pause or start the timer
     public void playTimer(View view) {
-        if(isLocked) return;
+        if(isLocked) return; // if the applciation is locked do nothing
         if(compteur.isPaused()){
             compteur.start();
         }else {
@@ -166,17 +176,20 @@ public class play_workout<activities> extends AppCompatActivity implements OnUpd
         }
     }
 
+    // mise a jour des timers
     @Override
     public void onUpdate() {
         miseAJour();
     }
 
+    // mise a jour de l'activité
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     public void onUpdateActivity() {
         miseAJourActivity();
     }
 
+    // mise a jour du bouton play/pause
     @Override
     public void onStatusChange() {
         if(compteur.isPaused()){
@@ -186,6 +199,7 @@ public class play_workout<activities> extends AppCompatActivity implements OnUpd
         }
     }
 
+    // mise a jour de l'activité quand elle est terminée
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @SuppressLint("ResourceAsColor")
     @Override
@@ -198,6 +212,7 @@ public class play_workout<activities> extends AppCompatActivity implements OnUpd
         numberOfActivitiesCompleted.put(compteur.getActivtyName(), numberOfActivitiesCompleted.get(compteur.getActivtyName()) + 1);
     }
 
+    // Start the activity finish when the last activity is finished
     @Override
     public void onFinish() {
         Intent myIntent = new Intent(play_workout.this , activity_finishWorkout.class);
@@ -205,7 +220,6 @@ public class play_workout<activities> extends AppCompatActivity implements OnUpd
         myIntent.putExtra("WORKOUT", workout);
         play_workout.this.startActivity(myIntent);
     }
-
 
     // add activity in the list of activities
     public void addActivity(int index, String activity, int time){
@@ -226,16 +240,19 @@ public class play_workout<activities> extends AppCompatActivity implements OnUpd
         displayActivities.addView(line);
     }
 
+    // go forward in the activities
     public void goForward(View view){
         if(isLocked) return;
         compteur.startActivity(1);
     }
 
+    // go backward in the activities
     public void goBackward(View view){
         if(isLocked) return;
         compteur.startActivity(-1);
     }
 
+    // locak or unlock the application
     public void lockUnlock(View view){
         isLocked = !isLocked;
         if(isLocked){
@@ -245,5 +262,14 @@ public class play_workout<activities> extends AppCompatActivity implements OnUpd
         }
     }
 
-
+    // Invocked when the orientation is changed
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            System.out.println("ORIENTATION LANDSCAPE");
+        } else {
+            System.out.println("ORIENTATION PORTRAIT");
+        }
+    }
 }

@@ -18,12 +18,15 @@ import java.util.HashMap;
 
 public class activity_finishWorkout extends AppCompatActivity {
 
+    // activities that user completed
     HashMap<String, Integer> activitiesCompleted;
 
+    // corresponding workout
     Workout workout;
 
     LinearLayout activitiesCompletedLayout;
 
+    // message to send if the button shared is pushed
     String messageToSend = "Récapitulatif de la séance outWorking\n";
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -46,6 +49,7 @@ public class activity_finishWorkout extends AppCompatActivity {
             put("Cool Down", workout.getCoolDown());
         }};
 
+        // build the resume of the user workout
         activitiesCompleted.forEach((String name, Integer number) -> {
             LayoutInflater inflater = LayoutInflater.from(activity_finishWorkout.this);
             View line = inflater.inflate(R.layout.template_finish_workout, null);
@@ -66,15 +70,18 @@ public class activity_finishWorkout extends AppCompatActivity {
         });
     }
 
+    // If the user want to go back without saving or hare
     public void goBackToWorkouts(View view){
         Intent myIntent = new Intent(activity_finishWorkout.this , activity_workouts.class);
         activity_finishWorkout.this.startActivity(myIntent);
     }
 
+    // To save in the history of workout realized
     public void saveInHistory(View view){
         goBackToWorkouts(view);
     }
 
+    // To share the workout that user did
     public void share(View view){
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);

@@ -36,6 +36,7 @@ public class activity_timer extends AppCompatActivity {
 
     private TextInputEditText activityName;
 
+    // key in order
     String[] keys = new String[] { "Prepare", "Work", "Rest", "Cycles", "Sets", "Rest between sets", "Cool Down" };
 
     HashMap<String, Integer> ids;
@@ -53,6 +54,7 @@ public class activity_timer extends AppCompatActivity {
 
         workout = (Workout) getIntent().getSerializableExtra("WORKOUT");
 
+        // if no workout --> this is a new workout
         if(workout == null){
             isNew = true;
             workout = new Workout();
@@ -74,6 +76,7 @@ public class activity_timer extends AppCompatActivity {
 
         ids = new HashMap<String, Integer>();
 
+        // build all the parameters in a workout
         for (String key : keys) {
             LayoutInflater inflater = LayoutInflater.from(activity_timer.this); // 1
             View line = inflater.inflate(R.layout.template_timer, null);
@@ -90,12 +93,14 @@ public class activity_timer extends AppCompatActivity {
             ids.put(key, id);
             text.setId(id);
 
+            // add on click listener to add 1 in this attribute
             buttonAdd.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     text.setText(Integer.toString(Integer.parseInt(String.valueOf(text.getText())) + 1));
                 }
             });
 
+            // add on click listener to remove 1 in this attribute
             buttonMinus.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     text.setText(Integer.toString(Integer.parseInt(String.valueOf(text.getText())) - 1));
@@ -107,6 +112,7 @@ public class activity_timer extends AppCompatActivity {
         }
     }
 
+    // modify value of a key based
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void modifyValue(String key, int number) {
 
@@ -124,6 +130,7 @@ public class activity_timer extends AppCompatActivity {
     }
 
 
+    // get value of a key based
     @RequiresApi(api = Build.VERSION_CODES.N)
     public int getValue(String key) {
         HashMap<String, Supplier<Integer>> map = new HashMap<String, Supplier<Integer>>(){{
@@ -138,15 +145,18 @@ public class activity_timer extends AppCompatActivity {
         return map.get(key).get();
     }
 
+    // Bring all the value in input values
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void saveObjectWorkout(View view){
         for(Map.Entry<String, Integer> entry : ids.entrySet()){
             EditText text =  findViewById(entry.getValue());
             modifyValue(entry.getKey(),Integer.parseInt(String.valueOf(text.getText())));
         }
+        // bring the activity name
         workout.setTitle(activityName.getText().toString());
     }
 
+    // To play the workout
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void playWorkout(View view) {
         saveObjectWorkout(view);
@@ -155,11 +165,13 @@ public class activity_timer extends AppCompatActivity {
         activity_timer.this.startActivity(playWorkout);
     }
 
+    // To save the workout in database and return to the default activity
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void saveInDbWorkout(View view) {
         class SaveInDbWorkout extends AsyncTask<Void, Void, Void> {
             @Override
             protected Void doInBackground(Void... voids) {
+                // if isNew, that mean the user want to create a workout --> insert, else update
                 if(isNew){
                     db.getAppDatabase().workoutDao().insert(workout);
                 }else {

@@ -21,7 +21,9 @@
         </activity>
         <activity
             android:name=".play_workout"
-            android:exported="false">
+            android:exported="false"
+            android:screenOrientation="sensor"
+            android:configChanges = "keyboardHidden|orientation|screenSize">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -42,19 +44,6 @@
         <activity
             android:name=".activity_timer"
             android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

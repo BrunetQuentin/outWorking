@@ -39,6 +39,7 @@ public class activity_workouts extends AppCompatActivity {
         listWorkout.setAdapter(adapter);
     }
 
+    // get all workouts to display them in the adapter
     private void getWorkouts() {
         class GetWorkouts extends AsyncTask<Void, Void, List<Workout>> {
 
@@ -71,6 +72,7 @@ public class activity_workouts extends AppCompatActivity {
         getWorkouts();
     }
 
+    // Start the activity workout with no workout --> new
     public void newWorkout(View view){
         Intent myIntent = new Intent(activity_workouts.this, activity_timer.class);
         activity_workouts.this.startActivity(myIntent);

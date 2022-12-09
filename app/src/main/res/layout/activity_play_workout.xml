@@ -7,113 +7,121 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/activities_information"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16px">
+        android:orientation="vertical">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/lockedButton"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:onClick="lockUnlock"
-            app:backgroundTint="@android:color/transparent"
-            app:fabCustomSize="56px"
-            app:fabSize="mini"
-            app:maxImageSize="54px"
-            app:srcCompat="@drawable/lock_open_solid"
-            tools:ignore="SpeakableTextPresentCheck" />
+            android:orientation="horizontal"
+            android:padding="16px">
 
-        <TextView
-            android:id="@+id/temps_global"
-            android:layout_width="wrap_content"
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/lockedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:onClick="lockUnlock"
+                app:backgroundTint="@android:color/transparent"
+                app:fabCustomSize="56px"
+                app:fabSize="mini"
+                app:maxImageSize="54px"
+                app:srcCompat="@drawable/lock_open_solid"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <TextView
+                android:id="@+id/temps_global"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="2:40"
+                android:textAlignment="center"
+                android:textSize="36dp" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/playButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:onClick="playTimer"
+                app:backgroundTint="@android:color/transparent"
+                app:fabCustomSize="56px"
+                app:fabSize="mini"
+                app:maxImageSize="54px"
+                app:srcCompat="@drawable/play_solid"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="2:40"
-            android:textAlignment="center"
-            android:textSize="36dp" />
+            android:orientation="horizontal">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/playButton"
-            android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/temp_activite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="20"
+                android:textAlignment="center"
+                android:textSize="72dp" />
+
+            <TextView
+                android:id="@+id/activityName"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Prepare"
+                android:textAlignment="center"
+                android:textSize="32dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:onClick="playTimer"
-            app:backgroundTint="@android:color/transparent"
-            app:fabCustomSize="56px"
-            app:fabSize="mini"
-            app:maxImageSize="54px"
-            app:srcCompat="@drawable/play_solid"
-            tools:ignore="SpeakableTextPresentCheck" />
-    </LinearLayout>
+            android:orientation="horizontal"
+            android:padding="16px">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/floatingActionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:onClick="goBackward"
+                app:backgroundTint="@android:color/transparent"
+                app:fabCustomSize="56px"
+                app:fabSize="mini"
+                app:maxImageSize="54px"
+                app:srcCompat="@drawable/backward_step_solid"
+                tools:ignore="SpeakableTextPresentCheck" />
 
-        <TextView
-            android:id="@+id/temp_activite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="20"
-            android:textAlignment="center"
-            android:textSize="72dp" />
+            <TextView
+                android:id="@+id/compteur_activite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="2/8"
+                android:textAlignment="center"
+                android:textSize="36dp" />
 
-        <TextView
-            android:id="@+id/activityName"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Prepare"
-            android:textAlignment="center"
-            android:textSize="32dp" />
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/floatingActionButton2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:onClick="goForward"
+                app:backgroundTint="@android:color/transparent"
+                app:fabCustomSize="56px"
+                app:fabSize="mini"
+                app:maxImageSize="54px"
+                app:srcCompat="@drawable/forward_step_solid"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </LinearLayout>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16px">
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:onClick="goBackward"
-            app:backgroundTint="@android:color/transparent"
-            app:fabCustomSize="56px"
-            app:fabSize="mini"
-            app:maxImageSize="54px"
-            app:srcCompat="@drawable/backward_step_solid"
-            tools:ignore="SpeakableTextPresentCheck" />
-
-        <TextView
-            android:id="@+id/compteur_activite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="2/8"
-            android:textAlignment="center"
-            android:textSize="36dp" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButton2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:onClick="goForward"
-            app:backgroundTint="@android:color/transparent"
-            app:fabCustomSize="56px"
-            app:fabSize="mini"
-            app:maxImageSize="54px"
-            app:srcCompat="@drawable/forward_step_solid"
-            tools:ignore="SpeakableTextPresentCheck" />
     </LinearLayout>
 
     <ScrollView

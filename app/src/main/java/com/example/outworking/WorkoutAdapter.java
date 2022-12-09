@@ -31,7 +31,7 @@ public class WorkoutAdapter extends ArrayAdapter<Workout> {
     }
 
     /**
-     * Remplit une ligne de la listView avec les informations de la multiplication associée
+     * Remplit une ligne de la listView avec les informations du workout
      *
      * @param position
      * @param convertView
@@ -90,18 +90,21 @@ public class WorkoutAdapter extends ArrayAdapter<Workout> {
         @SuppressLint({"MissingInflatedId", "LocalSuppress"}) FloatingActionButton editWorkshopButton = rowView.findViewById(R.id.editWorkshopButton);
         FloatingActionButton deleteWorkshopButton = rowView.findViewById(R.id.DeleteWorkshopButton);
 
+        // play the workout
         playWorkshopButton.setOnClickListener(view -> {
             Intent myIntent = new Intent(getContext() , play_workout.class);
             myIntent.putExtra("WORKOUT", workout);
             getContext().startActivity(myIntent);
         });
 
+        // edit the workout
         editWorkshopButton.setOnClickListener(view -> {
             Intent myIntent = new Intent(getContext() , activity_timer.class);
             myIntent.putExtra("WORKOUT", workout);
             getContext().startActivity(myIntent);
         });
 
+        // delete the workout
         deleteWorkshopButton.setOnClickListener(view -> {
             deleteWorkout(workout);
             this.remove(workout);
@@ -110,6 +113,7 @@ public class WorkoutAdapter extends ArrayAdapter<Workout> {
         return rowView;
     }
 
+    // Méthode pour supprimer le workout
     public void deleteWorkout(Workout workout) {
         class DeleteInDbWorkout extends AsyncTask<Void, Void, Void> {
             @Override
