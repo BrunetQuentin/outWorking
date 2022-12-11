@@ -41,19 +41,21 @@ public class play_workout<activities> extends AppCompatActivity implements OnUpd
 
     private Compteur compteur;
 
-    Workout workout;
+    private Workout workout;
 
-    LinearLayout displayActivities;
+    private LinearLayout displayActivities;
 
-    ScrollView scrollActivities;
+    private ScrollView scrollActivities;
 
-    FloatingActionButton playButton;
+    private FloatingActionButton playButton;
 
-    ArrayList<HashMap<String, Integer>> activities;
+    private ArrayList<HashMap<String, Integer>> activities;
 
     boolean isLocked = false;
 
-    HashMap<String, Integer> numberOfActivitiesCompleted;
+    private HashMap<String, Integer> numberOfActivitiesCompleted;
+
+    private MediaPlayer mp;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -80,6 +82,8 @@ public class play_workout<activities> extends AppCompatActivity implements OnUpd
         activities = new ArrayList<HashMap<String, Integer>>();
 
         numberOfActivitiesCompleted = new HashMap<>();
+
+        mp = MediaPlayer.create(this, R.raw.beep);
 
         HashMap<String, Integer> map = new HashMap<String, Integer>(){{
             put("Prepare", workout.getPrepare());
@@ -210,6 +214,8 @@ public class play_workout<activities> extends AppCompatActivity implements OnUpd
         }
         if(numberOfActivitiesCompleted.get(compteur.getActivtyName()) == null) numberOfActivitiesCompleted.put(compteur.getActivtyName(), 0);
         numberOfActivitiesCompleted.put(compteur.getActivtyName(), numberOfActivitiesCompleted.get(compteur.getActivtyName()) + 1);
+
+        mp.start();
     }
 
     // Start the activity finish when the last activity is finished
@@ -271,5 +277,23 @@ public class play_workout<activities> extends AppCompatActivity implements OnUpd
         } else {
             System.out.println("ORIENTATION PORTRAIT");
         }
+    }
+
+    @Override
+    protected void onStop() {
+
+        super.onStop();
+
+        compteur.pause();
+    }
+
+    @Override
+    protected void onDestroy() {
+
+        super.onDestroy();
+
+        compteur.stop();
+
+        this.finish();
     }
 }

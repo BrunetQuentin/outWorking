@@ -133,7 +133,7 @@ public class Compteur extends UpdateSource {
     }
 
     // Arrete l'objet CountDownTimer et l'efface
-    private void stop() {
+    public void stop() {
         if(timer != null){
             isPaused = true;
             onStatusChange();

@@ -25,6 +25,18 @@ public class WorkoutAdapter extends ArrayAdapter<Workout> {
 
     private DatabaseClient db;
 
+    HashMap<String, String> units = new HashMap<String, String>(){{
+        put("Prepare", "sec");
+        put("Work", "sec");
+        put("Rest", "sec");
+        put("Cycles", "X");
+        put("Sets", "X");
+        put("Rest between sets", "sec");
+        put("Cool Down", "sec");
+    }};
+
+    String[] order = new String[] { "Prepare", "Work", "Rest", "Cycles", "Rest between sets", "Sets", "Cool Down" };
+
     public WorkoutAdapter(Context mCtx, List<Workout> workoutList) {
         super(mCtx, R.layout.template_workout, workoutList);
         db = DatabaseClient.getInstance(mCtx);
@@ -70,16 +82,16 @@ public class WorkoutAdapter extends ArrayAdapter<Workout> {
 
         int index = 1;
 
-        for (String key : map.keySet()) {
+        for (String key : order) {
             TextView line = new TextView(getContext());
             line.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
-            line.setText(index + ". " + key + ": " + map.get(key) + " sec");
+            line.setText(index + ". " + key + ": " + map.get(key) + " " + units.get(key));
             activityDetail.addView(line);
             index++;
         }
 
         TextView detail = new TextView(getContext());
-        int total = (workout.getWork() + workout.getRest()) * workout.getCycles();
+        int total = (workout.getWork() + workout.getRest());
         int secTotal = total % 60;
         int minTotal = (total / 60) % 60;
         detail.setText("Total: " + minTotal + ":" + secTotal + " * " + workout.getCycles() + " * " + workout.getSets());

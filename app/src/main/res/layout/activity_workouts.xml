@@ -21,7 +21,6 @@
         android:layout_gravity="bottom|center|left"
         android:layout_margin="64px"
         android:baselineAlignBottom="false"
-        android:onClick="newWorkout"
         android:scaleType="fitXY"
         android:src="@drawable/clock_rotate_left_solid"
         app:backgroundTint="#684756"
