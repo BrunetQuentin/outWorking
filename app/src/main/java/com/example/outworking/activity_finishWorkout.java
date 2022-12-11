@@ -73,6 +73,7 @@ public class activity_finishWorkout extends AppCompatActivity {
     // If the user want to go back without saving or hare
     public void goBackToWorkouts(View view){
         Intent myIntent = new Intent(activity_finishWorkout.this , activity_workouts.class);
+        myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         activity_finishWorkout.this.startActivity(myIntent);
     }
 

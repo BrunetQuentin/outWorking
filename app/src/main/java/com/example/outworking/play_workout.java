@@ -222,6 +222,7 @@ public class play_workout<activities> extends AppCompatActivity implements OnUpd
     @Override
     public void onFinish() {
         Intent myIntent = new Intent(play_workout.this , activity_finishWorkout.class);
+        myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         myIntent.putExtra("ACTIVITIESCOMPLETED", numberOfActivitiesCompleted);
         myIntent.putExtra("WORKOUT", workout);
         play_workout.this.startActivity(myIntent);

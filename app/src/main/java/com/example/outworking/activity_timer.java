@@ -103,7 +103,9 @@ public class activity_timer extends AppCompatActivity {
             // add on click listener to remove 1 in this attribute
             buttonMinus.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    text.setText(Integer.toString(Integer.parseInt(String.valueOf(text.getText())) - 1));
+                    int number = Integer.parseInt(String.valueOf(text.getText())) - 1;
+                    if(number < 0) number = 0;
+                    text.setText(Integer.toString(number));
                 }
             });
             text.setText(Integer.toString(getValue(key)));
